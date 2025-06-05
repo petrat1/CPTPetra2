@@ -1,52 +1,110 @@
 import arc.*;
+import java.awt.Color;
+import java.awt.Font;
 
 public class mainmenu {
     public static void main(String[] args) {
-        Console con = new Console();
+        Console con = new Console("Multiple Choice Game", 600, 600);
         displayMenu(con);
     }
 
     public static void displayMenu(Console con) {
-        int intChoice = 0;
-        String strInput;
+        Font fontTitle = new Font("Arial Black", Font.BOLD, 36);
+        Font fontOption = new Font("Arial", Font.PLAIN, 24);
+        Font fontInput = new Font("Arial", Font.ITALIC, 20);
 
-        while (intChoice != 4) {
+        while (true) {
             con.clear();
-            con.println("MULTIPLE CHOICE GAME");
-            con.println("1. Play Game");
-            con.println("2. View Leaderboard");
-            con.println("3. Add Quiz");
-            con.println("4. Quit");
-            con.print("Enter your choice (1–4): ");
 
-            strInput = con.readLine();
+            // Background
+            con.setDrawColor(new Color(30, 30, 60));
+            con.fillRect(0, 0, 600, 600);
 
-            // Check if input is one character and digit
-            if (strInput.length() == 1 && 
-                strInput.charAt(0) >= '1' && strInput.charAt(0) <= '4') {
+            // Title
+            con.setDrawFont(fontTitle);
+            con.setDrawColor(new Color(255, 215, 0)); // gold
+            String strTitle = "MULTIPLE CHOICE GAME";
+            int intTitleWidth = con.getDrawFontMetrics().stringWidth(strTitle);
+            con.drawString(strTitle, (600 - intTitleWidth) / 2, 100);
 
-                intChoice = strInput.charAt(0) - '0'; // convert char digit to int
+            // Menu Options
+            String[] strOptions = {
+                "P. Play Game",
+                "V. View Leaderboard",
+                "A. Add Quiz",
+                "Q. Quit"
+            };
 
-                if (intChoice == 1) {
-                    con.println("You chose to play a game.");
-                } else if (intChoice == 2) {
-                    con.println("Viewing leaderboard...");
-                } else if (intChoice == 3) {
-                    con.println("Adding a new quiz...");
-                } else if (intChoice == 4) {
-                    con.println("Goodbye!");
-                }
-            } else {
-                con.println("Invalid input. Please enter a number from 1 to 4.");
-                intChoice = 0; // keep looping
+            int intRectX = 150;
+            int intRectWidth = 300;
+            int intRectHeight = 50;
+            int intStartY = 180;
+            int intGap = 20;
+
+            con.setDrawFont(fontOption);
+
+            for (int intI = 0; intI < strOptions.length; intI++) {
+                int intY = intStartY + intI * (intRectHeight + intGap);
+
+                // Draw option button
+                con.setDrawColor(new Color(70, 130, 180)); // steel blue
+                con.fillRoundRect(intRectX, intY, intRectWidth, intRectHeight, 20, 20);
+
+                // Draw text
+                con.setDrawColor(Color.WHITE);
+                int intTextY = intY + 35;
+                con.drawString(strOptions[intI], intRectX + 20, intTextY);
             }
 
-            con.println();
-            con.println("Press enter to continue...");
-            con.readLine();
+            // Input Prompt
+            con.setDrawFont(fontInput);
+            con.setDrawColor(Color.WHITE);
+            String strPrompt = "Enter your choice (P, V, A, Q): ";
+            con.drawString(strPrompt, intRectX, intStartY + strOptions.length * (intRectHeight + intGap) + 40);
+
+            con.repaint();
+
+            // Get user input
+            String strInput = con.readLine().trim().toUpperCase();
+
+            // Handle input
+            if (strInput.length() == 1) {
+                char charChoice = strInput.charAt(0);
+                if (charChoice == 'P') {
+                    con.clear();
+                    playgame game = new playgame(con);  // create playgame instance with this Console
+                    game.start();                       // start the quiz game
+                } else if (charChoice == 'V') {
+                    con.clear();
+                    con.println("Viewing leaderboard...");
+                    // You could add code here to show leaderboard contents if you want
+                    con.println("\nPress enter to return to main menu...");
+                    con.readLine();
+                } else if (charChoice == 'A') {
+                    con.clear();
+                    con.println("Adding a new quiz...");
+                    // Add quiz code could go here
+                    con.println("\nPress enter to return to main menu...");
+                    con.readLine();
+                } else if (charChoice == 'Q') {
+                    con.clear();
+                    con.println("Goodbye!");
+                    break;
+                } else {
+                    con.clear();
+                    con.println("Invalid input. Please enter P, V, A, or Q.");
+                    con.println("\nPress enter to continue...");
+                    con.readLine();
+                }
+            } else {
+                con.clear();
+                con.println("Invalid input. Please enter P, V, A, or Q.");
+                con.println("\nPress enter to continue...");
+                con.readLine();
+            }
         }
     }
 }
 
-		
-		
+
+
