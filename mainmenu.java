@@ -71,9 +71,8 @@ public class mainmenu {
             if (strInput.length() == 1) {
                 char charChoice = strInput.charAt(0);
                 if (charChoice == 'P') {
-                    con.clear();
-                    playgame game = new playgame(con);  // create playgame instance with this Console
-                    game.start();                       // start the quiz game
+                    playgame game = new playgame(); // ✅ launches in a new Console window
+                    game.start();
                 } else if (charChoice == 'V') {
                     con.clear();
                     con.println("Viewing leaderboard...");
@@ -105,6 +104,7 @@ public class mainmenu {
         }
     }
 }
+
 
 
 
