@@ -13,7 +13,7 @@ public class playgame {
     public Random rand = new Random();
 
     public playgame() {
-        con = new Console("Play Game", 600, 600);
+        con = new Console("Play Game", 800, 700); 
     }
 
     public void start() {
@@ -96,38 +96,58 @@ public class playgame {
         int intTotalQuestions = strQuiz.length;
 
         for (int intI = 0; intI < intTotalQuestions; intI++) {
+            con.clear();
             setGraphics();
 
             int intPercentSoFar = (intI == 0) ? 0 : (intScore * 100 / intI);
-            con.println("Player: " + strPlayerName + "   Quiz: " + strQuizName + "   Score: " + intPercentSoFar + "%\n");
+            con.setDrawColor(Color.WHITE);
+            con.setDrawFont(new Font("Arial", Font.PLAIN, 20));
+            con.drawString("Player: " + strPlayerName + "   Quiz: " + strQuizName + "   Score: " + intPercentSoFar + "%", 20, 40);
 
-            con.println("Q" + (intI + 1) + ": " + strQuiz[intI][0]);
-            con.println("A. " + strQuiz[intI][1]);
-            con.println("B. " + strQuiz[intI][2]);
-            con.println("C. " + strQuiz[intI][3]);
-            con.println("D. " + strQuiz[intI][4]);
+            con.setDrawFont(new Font("Arial", Font.PLAIN, 18));
+            con.drawString("Q" + (intI + 1) + ": " + strQuiz[intI][0], 20, 100);
+            con.drawString("A. " + strQuiz[intI][1], 20, 140);
+            con.drawString("B. " + strQuiz[intI][2], 20, 180);
+            con.drawString("C. " + strQuiz[intI][3], 20, 220);
+            con.drawString("D. " + strQuiz[intI][4], 20, 260);
 
-            con.println("\nEnter your answer (A, B, C, D):");
+            con.setDrawFont(new Font("Arial", Font.ITALIC, 18));
+            con.drawString("Enter your answer (A, B, C, D):", 20, 310);
             String strAnswer = con.readLine().trim().toUpperCase();
 
+            con.clear();
+            setGraphics();
+            con.setDrawColor(Color.WHITE);
+            con.setDrawFont(new Font("Arial", Font.PLAIN, 20));
+            con.drawString("Player: " + strPlayerName + "   Quiz: " + strQuizName + "   Score: " + intPercentSoFar + "%", 20, 40);
+
+            con.setDrawFont(new Font("Arial", Font.PLAIN, 18));
             if (strAnswer.equals(strQuiz[intI][5].toUpperCase())) {
-                con.println("Correct!");
+                con.drawString("Correct!", 20, 100);
                 intScore++;
             } else {
-                con.println("Incorrect! Correct answer was: " + strQuiz[intI][5]);
+                con.drawString("Incorrect! Correct answer was: " + strQuiz[intI][5], 20, 100);
             }
 
-            con.println("\nPress Enter to continue...");
+            con.setDrawFont(new Font("Arial", Font.ITALIC, 18));
+            con.drawString("Press Enter to continue...", 20, 150);
             con.readLine();
         }
 
         int intPercent = (intScore * 100) / intTotalQuestions;
+        con.clear();
         setGraphics();
-        con.println("Quiz finished!\nPlayer: " + strPlayerName + "\nQuiz: " + strQuizName + "\nScore: " + intPercent + "%");
+        con.setDrawColor(Color.WHITE);
+        con.setDrawFont(new Font("Arial", Font.PLAIN, 20));
+        con.drawString("Quiz finished!", 20, 40);
+        con.drawString("Player: " + strPlayerName, 20, 80);
+        con.drawString("Quiz: " + strQuizName, 20, 120);
+        con.drawString("Score: " + intPercent + "%", 20, 160);
 
         saveResultToLeaderboard(strPlayerName, strQuizName, intPercent);
 
-        con.println("\nPress Enter to return to main menu...");
+        con.setDrawFont(new Font("Arial", Font.ITALIC, 18));
+        con.drawString("Press Enter to return to main menu...", 20, 220);
         con.readLine();
     }
 
@@ -140,8 +160,8 @@ public class playgame {
     }
 
     public void setGraphics() {
-        con.setDrawColor(new Color(30, 30, 60)); // Dark blue background
-        con.fillRect(0, 0, 600, 600);
+        con.setDrawColor(new Color(30, 30, 60)); 
+        con.fillRect(0, 0, 800, 700);
         con.setDrawColor(Color.WHITE);
         con.setDrawFont(new Font("Arial", Font.PLAIN, 18));
     }
